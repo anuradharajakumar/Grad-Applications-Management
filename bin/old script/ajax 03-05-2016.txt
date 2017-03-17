@@ -1,0 +1,64 @@
+ path="program.programId"
+
+
+		
+				//	$.each(selectValues, function(key, value) {   
+					//     $('#programChoose')
+					  //        .append($('<option>', { value : key })
+					    //      .text(value)); 
+					//});
+					
+			//		$('#ddlCategory').
+				//      append($("<option></option>").
+				//    attr("value", "123").
+				  //    text("Some Text")); 
+					
+//					var html = '<form:option value="">Program</form:option>';
+					//	var programs_List = data.programs;
+					//	var len = programs_List.length;
+					//	for ( var i = 0; i < len; i++) {
+					//		html += '<form:option value="' + programs_List[i].name + '">'
+					//				+ programs_List[i].programName + '</form:option>';
+					//	}
+						
+			                        //now that we have our options, give them to our select
+
+
+
+for(var i=0 ; i <len; i++)
+						{
+						program_tag += '<option value=' + programlist[i].porgramId + '>'+ programlist[i].programName + '</option>';
+						}
+
+
+
+alert('success');
+					program_tag += '<c:forEach items="' + data.programs + '" var="t">';
+					program_tag+='<form:option value="${t.programId}"> ${t.programName }</form:option></c:forEach>';
+					
+
+alert(program_tag);
+					$('#programChoose').html(program_tag);
+
+
+
+
+
+
+var program_tag='';
+					
+					var programlist = data.programs;
+					var len = programlist.length;
+					
+					alert('success');
+					
+					$.each(programlist, function( index, value ) {
+						
+						program_tag += ' <option value="'+ value.programId +'">'+ value.programName +' </option>';
+						
+						
+					});
+					
+				
+					alert(program_tag);
+					

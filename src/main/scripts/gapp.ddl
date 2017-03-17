@@ -1,0 +1,188 @@
+  create table academicrecords (
+        academicRecordId  serial not null,
+        gpa float4 not null,
+        greScore int4 not null,
+        toeflScore int4 not null,
+        transcipt bytea,
+        primary key (academicRecordId)
+    );
+
+    create table additionaldocs (
+        docId  serial not null,
+        docName varchar(255),
+        docType varchar(255),
+        required boolean not null,
+        dept_deptId int4,
+        primary key (docId)
+    );
+
+    create table additionaldocsvalues (
+        additionalDocsValuesId  serial not null,
+        additionalDocValue varchar(255),
+        additionalDoc_docId int4,
+        application_applicationId int4,
+        primary key (additionalDocsValuesId)
+    );
+
+    create table applications (
+        applicationId  serial not null,
+        academicRecords_academicRecordId int4,
+        dept_deptId int4,
+        educationalBackground_educationalBackgroundId int4,
+        program_programId int4,
+        studentInfo_studentInfoId int4,
+        term_termId int4,
+        user_userId int4,
+        primary key (applicationId)
+    );
+
+    create table applicationstatus (
+        applicationStatusId  serial not null,
+        status varchar(255),
+        primary key (applicationStatusId)
+    );
+
+    create table applicationstatuschange (
+        applicationStatusChangeId  serial not null,
+        applicationstatuschange varchar(255),
+        changeTime timestamp,
+        comment varchar(255),
+        application_applicationId int4,
+        applicationstatus_applicationStatusId int4,
+        primary key (applicationStatusChangeId)
+    );
+
+    create table departments (
+        deptId  serial not null,
+        deptName varchar(255),
+        primary key (deptId)
+    );
+
+    create table educationalbackground (
+        educationalBackgroundId  serial not null,
+        degree varchar(255),
+        degreeEnd timestamp,
+        degreeStart timestamp,
+        major varchar(255),
+        university varchar(255),
+        primary key (educationalBackgroundId)
+    );
+
+    create table programs (
+        programId  serial not null,
+        programName varchar(255),
+        dept_deptId int4,
+        primary key (programId)
+    );
+
+    create table studentinfo (
+        studentInfoId  serial not null,
+        cin varchar(255),
+        citizenship varchar(255),
+        contact varchar(255),
+        dob timestamp,
+        email varchar(255),
+        firstName varchar(255),
+        gender varchar(255),
+        lastName varchar(255),
+        primary key (studentInfoId)
+    );
+
+    create table terms (
+        termId  serial not null,
+        term varchar(255),
+        year int4,
+        primary key (termId)
+    );
+
+    create table users (
+        userId  serial not null,
+        email varchar(255),
+        firstName varchar(255),
+        lastName varchar(255),
+        password varchar(255),
+        staffDept_deptId int4,
+        userType_userTypeId int4,
+        primary key (userId)
+    );
+
+    create table usertypes (
+        userTypeId  serial not null,
+        userTypeName varchar(255),
+        primary key (userTypeId)
+    );
+
+    alter table additionaldocs 
+        add constraint FKtn5sv2ho41avfh249ig3vqwbh 
+        foreign key (dept_deptId) 
+        references departments;
+
+    alter table additionaldocsvalues 
+        add constraint FK1lxsma2ack878s84f9lu76i0x 
+        foreign key (additionalDoc_docId) 
+        references additionaldocs;
+
+    alter table additionaldocsvalues 
+        add constraint FKrdvu9654et6ncw7sgwh08fpbg 
+        foreign key (application_applicationId) 
+        references applications;
+
+    alter table applications 
+        add constraint FKthvadxx1910t8gl9wlxte83ys 
+        foreign key (academicRecords_academicRecordId) 
+        references academicrecords;
+
+    alter table applications 
+        add constraint FKg4j5f769olw9g9wnar87dy6h7 
+        foreign key (dept_deptId) 
+        references departments;
+
+    alter table applications 
+        add constraint FKo8qf3t4bd4odkw8003g1j61w2 
+        foreign key (educationalBackground_educationalBackgroundId) 
+        references educationalbackground;
+
+    alter table applications 
+        add constraint FK87ov2rf2hhktlco4hq15y9wru 
+        foreign key (program_programId) 
+        references programs;
+
+    alter table applications 
+        add constraint FKny3apj44l25expyt1q3fishhx 
+        foreign key (studentInfo_studentInfoId) 
+        references studentinfo;
+
+    alter table applications 
+        add constraint FKp1y80k7kjair0xpjf0h4272yc 
+        foreign key (term_termId) 
+        references terms;
+
+    alter table applications 
+        add constraint FK7n7lfjys2rcewxphnqlggbi2p 
+        foreign key (user_userId) 
+        references users;
+
+    alter table applicationstatuschange 
+        add constraint FKc62fnjtoln3ixsjyqcwdka7ct 
+        foreign key (application_applicationId) 
+        references applications;
+
+    alter table applicationstatuschange 
+        add constraint FK27wc27949e11ehdawgm89h045 
+        foreign key (applicationstatus_applicationStatusId) 
+        references applicationstatus;
+
+    alter table programs 
+        add constraint FKd59iv01114xauqddoa82qgs5o 
+        foreign key (dept_deptId) 
+        references departments;
+
+    alter table users 
+        add constraint FKlpi34o5cmw4jyap2g7ajui0g4 
+        foreign key (staffDept_deptId) 
+        references departments;
+
+    alter table users 
+        add constraint FKjx22mrvhhx3qmwbu3rlh805rl 
+        foreign key (userType_userTypeId) 
+        references usertypes;
